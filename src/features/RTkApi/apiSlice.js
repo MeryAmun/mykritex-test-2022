@@ -4,49 +4,49 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const apiSlice = createApi({
   reducerPath:'apiSlice',
   baseQuery: fetchBaseQuery({
-    baseUrl:'http://localhost:3001'
+    baseUrl:'http://localhost:3000'
   }),
-  tagTypes:['Movie'],
-  endpoints:(builder) => ({
+  tagTypes:['Post'],
+  endpoints: (builder) => ({
     getMovies: builder.query({
-      query: () => '/movies',
-      providesTags: ['Movie'],
+      query: () => '/posts',
+      providesTags: ['Post'],
     }),
-    addNewMovie:builder.mutation({
+    addNewMovie: builder.mutation({
       query:(payload) => ({
-        url: '/movies',
-        method: 'Movie',
-        body:payload,
-        headers:{
-          'Content-Type':'application/json; charset=UTF-8',
+        url: '/posts',
+        method: 'POST',
+        body: payload,
+        headers: {
+          'Content-type':'application/json; charset=UTF-8',
         },
       }),
-      invalidatesTags: ['Movie'],
+      invalidatesTags: ['Post'],
     }),
-    updateMovie:builder.mutation({
+    updateMovie: builder.mutation({
       query:(payload) => {
         const {id, ...body} = payload;
         return {
-          url: `/movies/${id}`,
+          url: `/posts/${id}`,
           method: 'PUT',
           body,
         }
       },
-      invalidatesTags: ['Movie']
+      invalidatesTags: ['Post']
     }),
     deleteMovie: builder.mutation({
       query: (id) => ({
-        url: `'/movies/${id}`,
-        method:'DELETE',
-        credentials:'include',
+        url: `'/posts/${id}`,
+        method: 'DELETE',
+        credentials: 'include',
       }),
-      invalidatesTags: ['Movie']
+      invalidatesTags: ['Post']
     }),
   }),
 })
 
 export const {
-  useGetMovieQuery,
+  useGetMoviesQuery,
   useAddNewMovieMutation,
   useUpdateMovieMutation,
   useDeleteMovieMutation

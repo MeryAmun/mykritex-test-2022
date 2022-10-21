@@ -1,5 +1,9 @@
 .App {
   text-align: center;
+ 
+}
+.section{
+  border: 2px soli red;
 }
 
 .App-logo {
