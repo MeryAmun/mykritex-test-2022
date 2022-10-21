@@ -5,7 +5,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-       <h2 className="mb-5">React RTK Query CRUD Operations</h2>
+       <h2 className="mb-5">React RTK Query CRUD <br/> Operations in a Journal</h2>
      <div className='container'>
      <MoviesScreen/>
      </div>

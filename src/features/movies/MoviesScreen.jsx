@@ -4,7 +4,7 @@ import { useGetMoviesQuery,useAddNewMovieMutation, useDeleteMovieMutation,useUpd
 
 
 const MoviesScreen = () => {
-  const [addNewMovie, response] = useAddNewMovieMutation();
+  const [addNewMovie] = useAddNewMovieMutation();
   const [ deleteMovie ] = useDeleteMovieMutation();
   const [inputField, setInputField] = useState({
     id:'',
@@ -12,6 +12,7 @@ const MoviesScreen = () => {
     message:''
   });
 
+  const today = new Date().toDateString()
   const handleInputChange = (e) => {
     setInputField((prevState) => ({
       ...prevState,
@@ -19,7 +20,7 @@ const MoviesScreen = () => {
     }))
   }
 
-  const [updateMovie, {isLoading: isUpdating}] = useUpdateMovieMutation()
+  const [updateMovie] = useUpdateMovieMutation()
 
   const setMovieData = (data) => {
     setInputField({
@@ -90,6 +91,13 @@ console.log(err)
       return (
         <div className="col-lg-12 mb-3" key={movie.id}>
         <div className="card alert alert-secondary">
+        <div className="mb-3">
+            <label className="form-label">
+              <strong>Date:</strong>
+              
+            </label>
+            <label>  {today}</label>
+          </div>
           <div className="card-body">
             <h5 className="card-title">{movie.title}</h5>
             <p className="card-text">{movie.message}</p>
@@ -137,7 +145,7 @@ console.log(err)
           </div>
           <div className="mb-3">
             <label className="form-label">
-              <strong>Enter message</strong>
+              <strong>Enter Message</strong>
             </label>
             <textarea
               value={inputField.message}
@@ -160,7 +168,7 @@ console.log(err)
           </button>
         </form>
       </div>
-      <div className="col-lg-8">
+      <div className="col-lg-8 mt-2">
       <div className="row">{movieContent}</div>
         {/* {console.log(movies)} */}
       </div>
