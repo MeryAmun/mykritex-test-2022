@@ -1,27 +1,53 @@
 
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-// GET    /posts
-// GET    /posts/1
-// POST   /posts
-// PUT    /posts/1
-// PATCH  /posts/1
-// DELETE /posts/1
-const baseUrl = 'http://localhost:3001'
 export const apiSlice = createApi({
-  // The cache reducer expects to be added at `state.api` (already default - this is optional)
-  reducerPath: 'api',
-  // All of our requests will have URLs starting with '/fakeApi'
-  baseQuery: fetchBaseQuery(baseUrl),
-  // The "endpoints" represent operations and requests for this server
-  endpoints: builder => ({
-    // The `getPosts` endpoint is a "query" operation that returns data
-    getPosts: builder.query({
-      // The URL for the request is '/fakeApi/posts'
-      query: () => '/posts'
-    })
-  })
+  reducerPath:'apiSlice',
+  baseQuery: fetchBaseQuery({
+    baseUrl:'http://localhost:3001'
+  }),
+  tagTypes:['Movie'],
+  endpoints:(builder) => ({
+    getMovies: builder.query({
+      query: () => '/movies',
+      providesTags: ['Movie'],
+    }),
+    addNewMovie:builder.mutation({
+      query:(payload) => ({
+        url: '/movies',
+        method: 'Movie',
+        body:payload,
+        headers:{
+          'Content-Type':'application/json; charset=UTF-8',
+        },
+      }),
+      invalidatesTags: ['Movie'],
+    }),
+    updateMovie:builder.mutation({
+      query:(payload) => {
+        const {id, ...body} = payload;
+        return {
+          url: `/movies/${id}`,
+          method: 'PUT',
+          body,
+        }
+      },
+      invalidatesTags: ['Movie']
+    }),
+    deleteMovie: builder.mutation({
+      query: (id) => ({
+        url: `'/movies/${id}`,
+        method:'DELETE',
+        credentials:'include',
+      }),
+      invalidatesTags: ['Movie']
+    }),
+  }),
 })
 
-
-export const { useGetPostsQuery } = apiSlice
+export const {
+  useGetMovieQuery,
+  useAddNewMovieMutation,
+  useUpdateMovieMutation,
+  useDeleteMovieMutation
+} = apiSlice
